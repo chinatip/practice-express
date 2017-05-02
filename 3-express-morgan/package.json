@@ -12,6 +12,7 @@
     "express": "^4.15.2",
     "morgan": "^1.8.1",
     "cookie-parser": "latest",
-    "express-session": "latest"
+    "express-session": "latest",
+    "mongoose": "latest"
   }
 }
