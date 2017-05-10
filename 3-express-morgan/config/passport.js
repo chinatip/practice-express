@@ -1,5 +1,6 @@
 var localStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var axios = require('axios');
 
 var User = require('../app/models/user');
 var configAuth = require('./auth');
@@ -81,16 +82,26 @@ module.exports = function(passport) {
 	    				var newUser = new User();
 	    				newUser.facebook.id = profile.id;
 	    				newUser.facebook.token = accessToken;
-	    				newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
-	    				newUser.facebook.email = profile.emails[0].value;
 
-	    				newUser.save(function(err){
-	    					if(err)
-	    						throw err;
-	    					return done(null, newUser);
-	    				});
-	    				console.log(profile);
-	    			}
+	    				
+
+	    				
+	    				
+                        axios.get('https://graph.facebook.com/me?fields=email,name&access_token=' + accessToken)
+                            .then(function (response) {
+                                newUser.facebook.email = response.data.email;
+                                newUser.facebook.name = response.data.name;
+                                console.log(response.data)
+                                newUser.save(function(err){
+                                    if(err)
+                                        throw err;
+                                    return done(null, newUser);
+                                });
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+	    			    }
 	    		});
 	    	});
 	    }
