@@ -39,6 +39,13 @@ app.use(function(req, res, next){
 });
 
 app.set('view engine', 'ejs');
+var auth = express.Router();
+require('./app/routes/auth.js')(auth, passport);
+app.use('./auth', auth);
+
+var secure = express.Router();
+require('./app/routes/secure.js')(secure, passport);
+app.use('/', secure);
 
 // app.use('/', function(req, res){
 //     res.send('Our first Express program');
