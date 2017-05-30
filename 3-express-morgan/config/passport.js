@@ -57,8 +57,7 @@ module.exports = function(passport) {
         });
     }));
 
-    passport.use('l if(!req.user) {
-	    		   ocal-login', new localStrategy({
+    passport.use('local-login', new localStrategy({
         usernameField: 'email',
         passwordField: 'password',
         passReqToCallback: true
