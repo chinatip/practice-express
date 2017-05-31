@@ -39,9 +39,13 @@ app.use(function(req, res, next){
 });
 
 app.set('view engine', 'ejs');
+var api = express.Router();
+require('./app/routes/api.js')(api, passport);
+app.use('/api', api);
+
 var auth = express.Router();
 require('./app/routes/auth.js')(auth, passport);
-app.use('./auth', auth);
+app.use('/auth', auth);
 
 var secure = express.Router();
 require('./app/routes/secure.js')(secure, passport);
